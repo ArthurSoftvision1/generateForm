@@ -18,6 +18,7 @@ function callFunction() {
     paragraph.style.marginBottom = "0";
     paragraph.style.padding = "10px 5px";
     addButtonEvent(); // call the function to bring the click events
+    
 }
 
 callFunction(); // call the function to render the Form Generator button
@@ -40,7 +41,6 @@ function generateForm() {
     const firstNameInput = document.createElement('input'); // creates the first name input
     firstNameInput.setAttribute('id', 'firstName');
     firstNameInput.setAttribute('type', 'text');
-    
 
     const lastNameInput = document.createElement('input'); // creates the last name input
     lastNameInput.setAttribute('id', 'lastName'); // set ID
@@ -65,6 +65,7 @@ function generateForm() {
 
     const button = document.createElement('button'); // creates button
     button.setAttribute("id", "form-button"); // set ID
+    button.setAttribute('type', 'submit');
 
     const p = document.createElement('p');
     p.setAttribute('id', 'text');
@@ -72,6 +73,10 @@ function generateForm() {
     p.style.marginBottom = "0";
     button.appendChild(p);
     
+    // const jsonObject = document.createElement('div');
+    // jsonObject.setAttribute('id', 'output')
+    // headerSection.appendChild(jsonObject);
+
     // append every element in formContainer div
     formContainer.appendChild(firstNameInput);
     formContainer.appendChild(lastNameInput);
@@ -81,6 +86,7 @@ function generateForm() {
     formContainer.appendChild(commentsTextarea);
     formContainer.appendChild(button);
     addButtonEvent();
+
 }
 
 function removeForm() {
@@ -88,9 +94,9 @@ function removeForm() {
     elem.parentNode.removeChild(elem); // remove the form
 }
 
-function submitPage() {
-    document.getElementById('container-div').submit();
-}
+// function submitPage() {
+//     document.getElementById('container-div').submit();
+// }
 
 function addButtonEvent() {
     const selectButton = document.getElementById('generator-button');
@@ -100,7 +106,7 @@ function addButtonEvent() {
     selectSpan.addEventListener("click", removeForm); // call removeForm function
 
     const submitButton = document.getElementById('form-button');
-    submitButton.addEventListener("click", submitPage); // on click submit page
+    submitButton.addEventListener("click", createJson); // on click submit page
 
     // set placeholders for the inputs
     const firstNamePlaceholder = document.getElementById('firstName').setAttribute('placeholder', 'First name');
@@ -109,4 +115,30 @@ function addButtonEvent() {
     const passowordPlaceholder = document.getElementById('password').setAttribute('placeholder', 'Password');
     const phonePlaceholder = document.getElementById('phone').setAttribute('placeholder', 'Phone number');
     const textArea = document.getElementById('textarea-comments').setAttribute('placeholder', 'Please insert a comment here');
+}
+
+function createJson() {
+    const form = document.getElementById('container-div');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+  
+      const firstNameValue = document.getElementById('firstName').value;
+      const lastNameValue = document.getElementById('lastName').value;
+      const emailAddressValue = document.getElementById('address').value;
+      const passwordValue = document.getElementById('password').value;
+      const phoneValue = document.getElementById('phone').value;
+      const textareaValue = document.getElementById('textarea-comments').value;
+
+      const obj = {};
+      obj.firstName = firstNameValue;
+      obj.lastName = lastNameValue;
+      obj.emailAddress = emailAddressValue;
+      obj.password = passwordValue;
+      obj.phone = phoneValue;
+      obj.textarea = textareaValue;
+     
+      const JSONObj = JSON.stringify(obj);
+      var jsonLocation = document.querySelector('header');
+      jsonLocation.textContent += JSONObj;
+    });
 }
