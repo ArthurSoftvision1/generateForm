@@ -1,10 +1,14 @@
+window.onload = function() {
+    callFunction(); // on load page call the function to render the generator button
+};
+
 function callFunction() {
-    
-    const headerPart = document.createElement('header');
 
     const headerPosition = document.querySelector('header'); // selects the body section
     const createGeneratorButton = document.createElement('button');
     createGeneratorButton.setAttribute("id", "generator-button");
+    createGeneratorButton.className += "generate-form";
+
     headerPosition.appendChild(createGeneratorButton); // append the button in the header
 
     const span = document.createElement('span');
@@ -18,12 +22,9 @@ function callFunction() {
     paragraph.style.marginBottom = "0";
     paragraph.style.padding = "10px 5px";
     addButtonEvent(); // call the function to bring the click events
-    
 }
 
-callFunction(); // call the function to render the Form Generator button
-
-// add generator form
+// add form
 function generateForm() {
      
     const header = document.createElement('header');
@@ -54,7 +55,6 @@ function generateForm() {
     passwordInput.setAttribute('id', 'password'); // set ID
     passwordInput.setAttribute('type', 'password'); // set type
 
-
     const phoneNumberInput = document.createElement('input'); // creates the phone number input
     phoneNumberInput.setAttribute('id', 'phone'); // set ID
     phoneNumberInput.setAttribute('type', 'tel'); // set type
@@ -73,10 +73,6 @@ function generateForm() {
     p.style.marginBottom = "0";
     button.appendChild(p);
     
-    // const jsonObject = document.createElement('div');
-    // jsonObject.setAttribute('id', 'output')
-    // headerSection.appendChild(jsonObject);
-
     // append every element in formContainer div
     formContainer.appendChild(firstNameInput);
     formContainer.appendChild(lastNameInput);
@@ -86,17 +82,12 @@ function generateForm() {
     formContainer.appendChild(commentsTextarea);
     formContainer.appendChild(button);
     addButtonEvent();
-
 }
 
 function removeForm() {
     const elem = document.getElementById('container-div');
     elem.parentNode.removeChild(elem); // remove the form
 }
-
-// function submitPage() {
-//     document.getElementById('container-div').submit();
-// }
 
 function addButtonEvent() {
     const selectButton = document.getElementById('generator-button');
@@ -120,8 +111,9 @@ function addButtonEvent() {
 function createJson() {
     const form = document.getElementById('container-div');
     form.addEventListener('submit', (event) => {
-      event.preventDefault();
+      event.preventDefault(); // prevent submit default action of the form
   
+      // get the value from the inputs
       const firstNameValue = document.getElementById('firstName').value;
       const lastNameValue = document.getElementById('lastName').value;
       const emailAddressValue = document.getElementById('address').value;
@@ -129,7 +121,7 @@ function createJson() {
       const phoneValue = document.getElementById('phone').value;
       const textareaValue = document.getElementById('textarea-comments').value;
 
-      const obj = {};
+      const obj = {}; // create an empty JSON object where all the info will be stored
       obj.firstName = firstNameValue;
       obj.lastName = lastNameValue;
       obj.emailAddress = emailAddressValue;
@@ -139,6 +131,6 @@ function createJson() {
      
       const JSONObj = JSON.stringify(obj);
       var jsonLocation = document.querySelector('header');
-      jsonLocation.textContent += JSONObj;
+      jsonLocation.innerHTML += JSONObj;
     });
 }
